@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
+	<PackageReference Include="NLog.Web.AspNetCore" Version="5.3.13" />
+	<PackageReference Include="NLog" Version="5.3.4" />
+	<PackageReference Include="NLog.Extensions.Logging" Version="5.3.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CustomMessenger.Data\CustomMessenger.Data.csproj" />
+    <ProjectReference Include="..\CustomMessenger.Domain\CustomMessenger.Domain.csproj" />
+    <ProjectReference Include="..\CustomMessenger.Service\CustomMessenger.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+</Project>
