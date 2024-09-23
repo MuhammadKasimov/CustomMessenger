@@ -1,4 +1,4 @@
-using CustomMessenger.Components;
+using CustomMessengerBlazor.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
