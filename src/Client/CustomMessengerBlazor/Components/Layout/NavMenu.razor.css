@@ -102,3 +102,23 @@
         overflow-y: auto;
     }
 }
+
+.search-container {
+    display: inline-block;
+}
+
+.search-input {
+    width: auto; /* Adjust width as needed */
+    padding: 10px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    background-color: #1C1C1C; /* Dark background like in the image */
+    color: white; /* Text color */
+    font-size: 16px; /* Adjust font size as needed */
+}
+
+    .search-input::placeholder {
+        color: lightgray; /* Placeholder text color */
+        opacity: 1;
+    }

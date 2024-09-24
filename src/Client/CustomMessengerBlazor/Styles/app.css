@@ -1,4 +1,8 @@
-﻿html, body {
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -18,6 +22,15 @@ a, .btn-link {
 
 .content {
     padding-top: 1.1rem;
+}
+
+
+h1 {
+    color: white;
+}
+
+p {
+    color: white;
 }
 
 h1:focus {
