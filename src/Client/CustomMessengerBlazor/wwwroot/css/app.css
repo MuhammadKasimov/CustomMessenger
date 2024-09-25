@@ -558,11 +558,6 @@ video {
   position: static;
 }
 
-.px-3 {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-}
-
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -606,6 +601,49 @@ h1 {
 p {
   color: white;
 }
+
+/* Customize scrollbar for webkit-based browsers */
+
+/*::-webkit-scrollbar {
+    width: 12px;*/
+
+/* Width of the scrollbar */
+
+/*}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;*/
+
+/* Dark gray background for the track */
+
+/*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #555;*/
+
+/* Dark gray color for the scrollbar thumb */
+
+/*-webkit-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    border: 3px solid #1a1a1a;*/
+
+/* Adds padding between the track and thumb */
+
+/*}*/
+
+/* For Firefox: Custom scrollbar */
+
+/** {
+    scrollbar-width: thin;
+    scrollbar-color: #555 #1a1a1a;*/
+
+/* Scrollbar thumb color and track color */
+
+/*}*/
 
 h1:focus {
   outline: none;

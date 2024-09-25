@@ -10,18 +10,18 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") no-repeat center/1.75rem rgba(255, 255, 255, 0.1);
 }
-
     .navbar-toggler:checked {
         background-color: rgba(255, 255, 255, 0.5);
     }
 
 .top-row {
     height: 3.5rem;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgb(14, 14, 14);
 }
 
 .navbar-brand {
     font-size: 1.1rem;
+
 }
 
 .bi {
@@ -63,16 +63,16 @@
         color: #d7d7d7;
         background: none;
         border: none;
-        border-radius: 4px;
         height: 3rem;
         display: flex;
         align-items: center;
         line-height: 3rem;
         width: 100%;
+        padding-left: 20px;
     }
 
     .nav-item ::deep a.active {
-        background-color: rgba(255,255,255,0.37);
+        background-color: transparent;
         color: white;
     }
 
@@ -102,23 +102,41 @@
         overflow-y: auto;
     }
 }
-
+/* Basic styling for the container */
 .search-container {
-    display: inline-block;
+    display: flex;
+    align-items: center;
 }
 
-.search-input {
-    width: auto; /* Adjust width as needed */
-    padding: 10px;
-    border-radius: 25px;
+/* Style for the menu button */
+.menu-button {
+    background: none;
     border: none;
-    outline: none;
-    background-color: #1C1C1C; /* Dark background like in the image */
-    color: white; /* Text color */
-    font-size: 16px; /* Adjust font size as needed */
+    cursor: pointer;
 }
 
+/* Adjust the size of the menu icon */
+.menu-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Style for the search input */
+.search-input {
+    background-color: #333; /* Black background to match the container */
+    border: none;
+    color: white;
+    outline: none;
+    font-size: 16px;
+    width:auto;
+    height:35px;
+    flex: 1; /* Allow the input to take up available space */
+    padding: 15px;
+    margin:5px;
+    border-radius: 25px;
+}
+
+    /* Placeholder text color */
     .search-input::placeholder {
-        color: lightgray; /* Placeholder text color */
-        opacity: 1;
+        color: #aaa; /* Lighter gray for the placeholder text */
     }
