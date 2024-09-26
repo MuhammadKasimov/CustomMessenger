@@ -567,11 +567,6 @@ video {
   padding-inline-start: 0.75rem;
 }
 
-.text-zinc-200 {
-  --tw-text-opacity: 1;
-  color: rgb(228 228 231 / var(--tw-text-opacity));
-}
-
 html, body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -673,4 +668,46 @@ h1:focus {
 
 .darker-border-checkbox.form-check-input {
   border-color: #929292;
+}
+
+main {
+  background-color: rgb(14, 14, 14);
+  background-image: url('/images/backround.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: none;
+}
+
+.sidebar {
+  background-color: rgb(14, 14, 14);
+  width: 100%;
+  height: 100vh;
+}
+
+.sidebar-hidden {
+  background-color: rgb(14, 14, 14);
+  width: 100%;
+  height: 100vh;
+  display: none;
+}
+
+.main-inherit {
+  display: inherit;
+  width:100%;
+}
+
+@media (min-width: 748px) {
+  .sidebar {
+    width: 35vh;
+    height: auto;
+    position: sticky;
+  }
+
+  main {
+    flex: 1;
+    display: inherit;
+    width: 100%;
+  }
 }

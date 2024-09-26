@@ -1,8 +1,69 @@
 ﻿@page "/"
+@using CustomMessengerBlazor.Components.Layout
+@inject IJSRuntime JS
+@rendermode InteractiveServer
 
-<div>
-    <PageTitle>Home</PageTitle>
-
-    <h1 class="text-zinc-200">Hello, world!</h1>
-
+<div class="@sidebarStyle">
+    <NavMenu OnChatClick="ViewChat" />
 </div>
+
+<main class="@mainStyle">
+    <article class="content px-4">
+    </article>
+</main>
+
+@code {
+    private string sidebarStyle = "sidebar";
+    private string mainStyle = string.Empty;
+
+    private async Task ViewChat()
+    {
+        await GetWindowSize();
+        if (windowWidth <= 748)
+        {
+            sidebarStyle = "sidebar-hidden";
+            mainStyle = "main-inherit";
+        }
+    }
+
+    private int windowWidth;
+    private int windowHeight;
+
+    private IJSObjectReference? module;
+
+    private async Task GetWindowSize()
+    {
+        var size = await JS.InvokeAsync<WindowSize>("getWindowSize");
+
+        windowWidth = size.Width;
+        windowHeight = size.Height;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var dotNetHelper = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("addEscKeyListener", dotNetHelper);
+        }
+    }
+
+    [JSInvokable]
+    public void OnEscapeKeyPressed()
+    {
+        sidebarStyle = "sidebar";
+        mainStyle = string.Empty;
+        StateHasChanged();
+    }
+
+    // public async ValueTask DisposeAsync()
+    // {
+    //     await JS.InvokeVoidAsync("removeEscKeyListener");
+    // }
+
+    public class WindowSize
+    {
+        public int Width { get; set; }
+        public int Height { get; set; }
+    }
+}
