@@ -1,4 +1,5 @@
-﻿window.addEscKeyListener = (dotNetHelper) => {
+﻿const menuButton = document.getElementById('menuButton');
+window.addEscKeyListener = (dotNetHelper) => {
     document.addEventListener('keyup', (event) => {
         if (event.key === 'Escape') {
             dotNetHelper.invokeMethodAsync('OnEscapeKeyPressed');
@@ -21,3 +22,5 @@ window.getWindowSize = () => {
         height: window.innerHeight
     };
 };
+
+

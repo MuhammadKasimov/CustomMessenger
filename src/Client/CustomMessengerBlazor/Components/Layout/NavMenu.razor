@@ -3,7 +3,10 @@
 
 <div class="ps-3">
     <div class="search-container">
-        <button class="menu-button"><img class="menu-icon" src="/icons/menu.svg"/></button>
+        <button class="menu-button" @onclick="@(async () => await ToggleButton())">
+            <img class="menu-icon" src="/icons/menu.svg" />
+            <img class="close-icon" src="/icons/close.svg" id="closeIcon" />
+        </button>
         <input placeholder="search" class="search-input" />
     </div>
 </div>
@@ -20,7 +23,7 @@
 
 @code
 {
-    [Parameter] 
+    [Parameter]
     public EventCallback OnChatClick { get; set; }
 
     private IJSObjectReference? module;
@@ -33,5 +36,11 @@
 
             await module.InvokeVoidAsync("initializeNiceScroll");
         }
+    }
+    private async Task ToggleButton()
+    {
+        module = await JS.InvokeAsync<IJSObjectReference>("import", "/js/nicescroll.js");
+
+        await module.InvokeVoidAsync("toggleMenuButton");
     }
 }

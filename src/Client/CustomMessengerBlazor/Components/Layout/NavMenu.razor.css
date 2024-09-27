@@ -77,13 +77,34 @@
     cursor: pointer;
     width: 24px;
     height: 24px;
-    padding:0px;
+    padding: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Adjust the size of the menu icon */
-.menu-icon {
+.menu-icon,
+.close-icon {
     width: 24px;
     height: 24px;
+    position: absolute;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.close-icon {
+    opacity: 0;
+    transform: rotate(-90deg); /* Optional: start with a rotated close icon */
+}
+
+.menu-button.close .menu-icon {
+    opacity: 0;
+    transform: rotate(90deg); /* Rotate out the menu icon */
+}
+
+.menu-button.close .close-icon {
+    opacity: 1;
+    transform: rotate(0); /* Rotate back to normal when transitioning */
 }
 
 /* Style for the search input */
