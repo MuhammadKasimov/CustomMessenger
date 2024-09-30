@@ -7,14 +7,6 @@ window.addEscKeyListener = (dotNetHelper) => {
     });
 };
 
-window.removeEscKeyListener = () => {
-    document.removeEventListener('keyup', (event) => {
-        if (event.key === 'Escape') {
-            // Note: The listener can't be directly removed without storing the function reference.
-            // This example only shows adding/removing but doesn't properly handle removal.
-        }
-    });
-};
 
 window.getWindowSize = () => {
     return {
@@ -23,4 +15,12 @@ window.getWindowSize = () => {
     };
 };
 
-
+function toggleMenuButton() {
+    const menuButton = document.getElementById('menu-button');
+    if (menuButton) {
+        console.log("entered")
+        menuButton.classList.toggle('close');
+    } else {
+        console.error('Menu button not found');
+    }
+};

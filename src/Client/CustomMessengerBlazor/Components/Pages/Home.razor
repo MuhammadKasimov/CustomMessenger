@@ -4,7 +4,7 @@
 @rendermode InteractiveServer
 
 <div class="@sidebarStyle">
-    <NavMenu OnChatClick="ViewChat" />
+    <NavMenu OnChatClick="ViewChat" OnMenuClick="ToggleButton" />
 </div>
 
 <main class="@mainStyle">
@@ -29,8 +29,6 @@
     private int windowWidth;
     private int windowHeight;
 
-    private IJSObjectReference? module;
-
     private async Task GetWindowSize()
     {
         var size = await JS.InvokeAsync<WindowSize>("getWindowSize");
@@ -47,7 +45,10 @@
             await JS.InvokeVoidAsync("addEscKeyListener", dotNetHelper);
         }
     }
-
+    private async Task ToggleButton()
+    {
+        await JS.InvokeVoidAsync("toggleMenuButton");
+    }
     [JSInvokable]
     public void OnEscapeKeyPressed()
     {
@@ -55,11 +56,6 @@
         mainStyle = string.Empty;
         StateHasChanged();
     }
-
-    // public async ValueTask DisposeAsync()
-    // {
-    //     await JS.InvokeVoidAsync("removeEscKeyListener");
-    // }
 
     public class WindowSize
     {

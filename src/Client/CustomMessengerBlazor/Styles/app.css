@@ -91,10 +91,6 @@ h1:focus {
     border-color: #929292;
 }
 
-
-
-
-
 main {
     background-color: rgb(14, 14, 14);
     background-image: url('/images/backround.png');
@@ -119,14 +115,14 @@ main {
 
 .main-inherit {
     display: inherit;
-    width:100%;
+    width:100vh;
 }
 
 
 @media (min-width: 748px) {
     .sidebar {
-        width: 35vh;
-        height: auto;
+        width: 280px;
+        height: 100vh;
         position: sticky;
     }
 

@@ -7,13 +7,3 @@ export function initializeNiceScroll() {
         autohidemode: false 
     });
 }
-
-export function toggleMenuButton() {
-    console.log("scripts.js loaded");
-    const menuButton = document.getElementById('menuButton');
-    if (menuButton) {
-        menuButton.classList.toggle('close');
-    } else {
-        console.error('Menu button not found');
-    }
-};
