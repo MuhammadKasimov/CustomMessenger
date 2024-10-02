@@ -1,0 +1,43 @@
+﻿@page "/login"
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
+@rendermode InteractiveServer
+
+<main>
+    <div class="register-container">
+        <h1 class="font-semibold text-xl">Login</h1>
+        <EditForm Model="@user" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="input-container">
+                <input placeholder=" "  id="username" @bind="user.Username"  />
+                <label for="password">Username<span class="text-red-500">*</span></label>
+                <ValidationMessage For="@(() => user.Username)" />
+            </div>
+
+
+            <div class="input-container">
+                <input placeholder=" "  id="password" @bind="user.Password" type="password"  />
+                <label for="password">Password<span class="text-red-500">*</span></label>
+                <ValidationMessage For="@(() => user.Password)" />
+            </div>
+
+            <button type="submit" class="submit-button">Login</button>
+        </EditForm>
+    </div>
+</main>
+
+@code {
+    private UserLogin user = new UserLogin();
+
+    private void HandleValidSubmit()
+    {
+        // Handle registration logic here, e.g., sending data to an API
+        NavigationManager.NavigateTo("/");
+    }
+    public class UserLogin
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
+}

@@ -126,3 +126,17 @@
     .search-input::placeholder {
         color: #aaa; /* Lighter gray for the placeholder text */
     }
+
+.for-menu {
+    background-color: #1c1c1c;
+    width: 60px;
+    height: 100vh;
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    animation: breathing 1.5s ease-in-out infinite;
+}
+.for-menu-visible {
+    opacity: 1;
+    pointer-events: all;
+}

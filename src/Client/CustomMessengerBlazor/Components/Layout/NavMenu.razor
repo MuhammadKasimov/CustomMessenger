@@ -1,6 +1,8 @@
 ﻿@inject IJSRuntime JS
 @rendermode InteractiveServer
 
+
+<div class="for-menu @(Visibility ? "for-menu-visible" : "")"></div>
 <div class="ps-3">
     <div class="search-container">
         <button class="menu-button" @onclick="OnMenuClick" id="menu-button">
@@ -11,11 +13,12 @@
     </div>
 </div>
 
-<div id="scrollable-div" class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+
+<div id="scrollable" class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
         <div class="nav-item" @onclick="OnChatClick">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+                <span class="text-base font-semibold" aria-hidden="true">Home</span>
             </NavLink>
         </div>
     </nav>
@@ -27,6 +30,8 @@
     public EventCallback OnChatClick { get; set; }
     [Parameter]
     public EventCallback OnMenuClick { get; set; }
+    [Parameter]
+    public bool Visibility { get; set; }
     private IJSObjectReference? module;
 
     protected async override Task OnAfterRenderAsync(bool firstRender)

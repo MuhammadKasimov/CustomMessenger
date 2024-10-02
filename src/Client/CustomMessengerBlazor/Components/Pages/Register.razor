@@ -1,0 +1,69 @@
+﻿@page "/register"
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
+@rendermode InteractiveServer
+
+<main>
+    <div class="register-container">
+        <h1 class="font-semibold text-xl">Registration</h1>
+        <EditForm Model="@user" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="input-container">
+                <input placeholder=" "  type="text" id="username" @bind="user.Name" />
+                <label for="password">Name<span class="text-red-500">*</span></label>
+                <ValidationMessage For="@(() => user.Name)" />
+            </div>
+            <div class="input-container">
+                <input placeholder=" "  id="username" @bind="user.Username"  />
+                <label for="password">Username<span class="text-red-500">*</span></label>
+                <ValidationMessage For="@(() => user.Username)" />
+            </div>
+
+
+            <div class="input-container">
+                <input placeholder=" "  id="password" @bind="user.Password" type="password"  />
+                <label for="password">Password<span class="text-red-500">*</span></label>
+                <ValidationMessage For="@(() => user.Password)" />
+            </div>
+
+            <div class="input-container">
+                <input placeholder=" "  id="phoneNumber" @bind="user.PhoneNumber"  />
+                <label for="phoneNumber">Phone Number<span class="text-red-500">*</span></label>
+                <ValidationMessage For="@(() => user.PhoneNumber)" />
+            </div>
+            
+            <div class="input-container">
+                <input placeholder=" "  id="email" @bind="user.Email"  />
+                <label for="email">Email</label>
+            </div>
+
+            <div class="input-container">
+                <textarea id="scrollable" placeholder=" "  @bind="user.Bio" />
+                <label for="bio">Bio</label>
+            </div>
+
+            <button type="submit" class="submit-button">Register</button>
+        </EditForm>
+    </div>
+</main>
+
+@code {
+    private UserRegistration user = new UserRegistration();
+
+    private void HandleValidSubmit()
+    {
+        NavigationManager.NavigateTo("/login");
+    }
+
+    public class UserRegistration
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public string PhoneNumber { get; set; } = string.Empty;
+        public string Username { get; set; } = string.Empty;
+        public string Bio { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+    }
+}

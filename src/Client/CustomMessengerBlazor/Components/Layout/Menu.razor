@@ -1,0 +1,23 @@
+﻿@rendermode InteractiveServer
+<div class="modal @(IsVisible ? "modal-visible" : "")">
+    <div class="modal-content" @onclick:stopPropagation>
+        <div class="content">
+            <button Match="NavLinkMatch.All">
+                <span class="font-semibold" aria-hidden="true">Profile</span>
+            </button> 
+            <button Match="NavLinkMatch.All">
+                <span class="font-semibold" aria-hidden="true">New Chat</span>
+            </button>            
+            <button Match="NavLinkMatch.All">
+                <span class="font-semibold" aria-hidden="true">New Group</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public bool IsVisible { get; set; } = false;
+    [Parameter]
+    public EventCallback OnCloseClick { get; set; }
+}

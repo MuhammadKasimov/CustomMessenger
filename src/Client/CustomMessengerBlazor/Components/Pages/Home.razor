@@ -4,15 +4,17 @@
 @rendermode InteractiveServer
 
 <div class="@sidebarStyle">
-    <NavMenu OnChatClick="ViewChat" OnMenuClick="ToggleButton" />
+    <NavMenu OnChatClick="ViewChat" OnMenuClick="ToggleButton" Visibility="isMenuVisible" />
 </div>
 
 <main class="@mainStyle">
     <article class="content px-4">
     </article>
 </main>
-
+<Menu IsVisible="@isMenuVisible" OnCloseClick="ToggleButton" />
 @code {
+    private bool isMenuVisible = false;
+
     private string sidebarStyle = "sidebar";
     private string mainStyle = string.Empty;
 
@@ -48,6 +50,7 @@
     private async Task ToggleButton()
     {
         await JS.InvokeVoidAsync("toggleMenuButton");
+        isMenuVisible = !isMenuVisible;
     }
     [JSInvokable]
     public void OnEscapeKeyPressed()
