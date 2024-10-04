@@ -21,7 +21,7 @@ namespace CustomMessenger.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateAsync(GroupForUpdate groupForUpdate) 
+        public async Task<IActionResult> UpdateAsync(GroupForUpdate groupForUpdate)
         {
             await groupService.UpdateAsync(groupForUpdate);
             return Ok();
@@ -42,7 +42,7 @@ namespace CustomMessenger.Controllers
         public async Task<IActionResult> GetByUniqueName(string uniquename) =>
             Ok(await groupService.GetByUniqueNameAsync(uniquename));
         [HttpGet]
-        public async Task<IActionResult> SeearchAsync([FromQuery]string query) =>
+        public async Task<IActionResult> SeearchAsync([FromQuery] string query) =>
             Ok(await groupService.SearchAsync(query));
 
         [HttpPost("members")]
@@ -55,7 +55,7 @@ namespace CustomMessenger.Controllers
         [HttpDelete("members/{id}")]
         public async Task<IActionResult> DeleteMemberAsync(Guid id)
         {
-            await groupService.DeleteMemberAsync(id); 
+            await groupService.DeleteMemberAsync(id);
             return Ok();
         }
 

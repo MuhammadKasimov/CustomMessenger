@@ -1,10 +1,10 @@
-CREATE TABLE chats(
+CREATE TABLE public.chats (
 	id uuid NOT NULL,
 	firstuserid uuid NOT NULL,
 	seconduserid uuid NOT NULL,
-	createdat timestamp NOT NULL,
-	updatedat timestamp,
-	PRIMARY KEY (id),
-	FOREIGN KEY (firstuserid) REFERENCES USERS(id),
-	FOREIGN KEY (seconduserid) REFERENCES USERS(id)
+	createdat timestamptz NOT NULL,
+	updatedat timestamptz NULL,
+	CONSTRAINT chats_pkey PRIMARY KEY (id),
+	CONSTRAINT chats_firstuserid_fkey FOREIGN KEY (firstuserid) REFERENCES public.users(id),
+	CONSTRAINT chats_seconduserid_fkey FOREIGN KEY (seconduserid) REFERENCES public.users(id)
 );

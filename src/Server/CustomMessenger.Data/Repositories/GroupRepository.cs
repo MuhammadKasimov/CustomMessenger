@@ -3,12 +3,6 @@ using CustomMessenger.Data.IRepositories;
 using CustomMessenger.Domain.Entities;
 using Npgsql;
 using NpgsqlTypes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace CustomMessenger.Data.Repositories
 {
@@ -23,7 +17,7 @@ namespace CustomMessenger.Data.Repositories
                 {
                     command.Parameters.AddWithValue("_name", NpgsqlDbType.Varchar, group.Name);
                     command.Parameters.AddWithValue("_uniquename", NpgsqlDbType.Varchar, group.UniqueName);
-                    
+
                     await command.ExecuteNonQueryAsync();
                 }
             }
@@ -69,7 +63,7 @@ namespace CustomMessenger.Data.Repositories
                 {
                     var groups = new List<Group>();
                     command.Parameters.AddWithValue("_query", NpgsqlDbType.Varchar, query);
-                    
+
                     var reader = await command.ExecuteReaderAsync();
 
                     while (reader.Read())
@@ -122,7 +116,7 @@ namespace CustomMessenger.Data.Repositories
 
                     var reader = await command.ExecuteReaderAsync();
 
-                    while(reader.Read())
+                    while (reader.Read())
                     {
                         return reader.MapReaderToGroupWithUsers();
                     }

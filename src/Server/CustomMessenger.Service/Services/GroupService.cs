@@ -7,8 +7,6 @@ using CustomMessenger.Service.Exceptions;
 using CustomMessenger.Service.Helpers;
 using CustomMessenger.Service.Interfaces;
 using Mapster;
-using System.Net.Http.Headers;
-using System.Security.Cryptography.X509Certificates;
 
 namespace CustomMessenger.Service.Services
 {
@@ -21,7 +19,7 @@ namespace CustomMessenger.Service.Services
             var existGroup = await groupRepository.GetByUniqueNameAsync(dto.UniqueName);
             if (existGroup is not null)
                 throw new HttpStatusCodeException(400, "This name is taken");
-            
+
             await groupRepository.CreateAsync(dto.Adapt<Group>());
 
             var createdGroup = await groupRepository.GetByUniqueNameAsync(dto.UniqueName);
@@ -43,7 +41,7 @@ namespace CustomMessenger.Service.Services
 
             var existUser = await memberRepository.GetByIdsAsync((Guid)HttpContextHelper.UserId, dto.Id);
             if (existUser.Role == Role.Member)
-                throw new HttpStatusCodeException(403,"You don't have permission to change group data");
+                throw new HttpStatusCodeException(403, "You don't have permission to change group data");
 
             await groupRepository.UpdateAsync(dto.Adapt<Group>());
         }
@@ -112,7 +110,7 @@ namespace CustomMessenger.Service.Services
         {
             var existMember = await memberRepository.GetByIdAsync(memberid);
             if (existMember is null)
-                throw new HttpStatusCodeException(404,"User not in this groups");
+                throw new HttpStatusCodeException(404, "User not in this groups");
 
             existMember = await memberRepository.GetByIdsAsync((Guid)HttpContextHelper.UserId, existMember.GroupId)
                 ?? throw new HttpStatusCodeException(401, "You are not group member");

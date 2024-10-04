@@ -1,4 +1,6 @@
 ﻿@page "/login"
+@using CustomMessengerBlazor.Models.Users
+@using Microsoft.AspNetCore.Components.Rendering
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
 @rendermode InteractiveServer
@@ -29,15 +31,9 @@
 
 @code {
     private UserLogin user = new UserLogin();
-
     private void HandleValidSubmit()
     {
         // Handle registration logic here, e.g., sending data to an API
         NavigationManager.NavigateTo("/");
-    }
-    public class UserLogin
-    {
-        public string Username { get; set; }
-        public string Password { get; set; }
     }
 }

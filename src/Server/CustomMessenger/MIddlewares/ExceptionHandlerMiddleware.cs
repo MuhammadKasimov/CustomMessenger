@@ -1,5 +1,4 @@
-﻿using CustomMessenger.Data.IRepositories;
-using CustomMessenger.Service.Exceptions;
+﻿using CustomMessenger.Service.Exceptions;
 using CustomMessenger.Service.Helpers;
 using CustomMessenger.Service.Interfaces;
 using Newtonsoft.Json;

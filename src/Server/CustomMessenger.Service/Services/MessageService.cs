@@ -5,11 +5,6 @@ using CustomMessenger.Service.Exceptions;
 using CustomMessenger.Service.Helpers;
 using CustomMessenger.Service.Interfaces;
 using Mapster;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CustomMessenger.Service.Services
 {
@@ -19,7 +14,7 @@ namespace CustomMessenger.Service.Services
         {
             if (dto.ChatId is null)
             {
-                var existGroup = await groupRepository.GetByIdAsync((Guid)dto.GroupId) 
+                var existGroup = await groupRepository.GetByIdAsync((Guid)dto.GroupId)
                     ?? throw new HttpStatusCodeException(404, "Chat not found");
             }
             else
@@ -29,9 +24,9 @@ namespace CustomMessenger.Service.Services
             }
 
             var message = dto.Adapt<Message>();
-            
+
             message.SenderId = (Guid)HttpContextHelper.UserId;
-            
+
             await messageRepository.CreateAsync(message);
 
         }
@@ -41,7 +36,7 @@ namespace CustomMessenger.Service.Services
             var existMessage = await messageRepository.GetByIdAsync(dto.Id);
             if (existMessage is null)
                 throw new HttpStatusCodeException(404, "No message found");
-            await messageRepository.UpdateAsync(dto.Id,dto.Content);
+            await messageRepository.UpdateAsync(dto.Id, dto.Content);
         }
 
         public async Task DeleteAsync(Guid id)

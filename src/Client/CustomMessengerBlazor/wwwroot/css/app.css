@@ -558,27 +558,13 @@ video {
   position: static;
 }
 
-.px-3 {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-}
-
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
 }
 
-.px-5 {
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-}
-
 .ps-3 {
   padding-inline-start: 0.75rem;
-}
-
-.ps-6 {
-  padding-inline-start: 1.5rem;
 }
 
 .text-base {
@@ -687,6 +673,8 @@ h1:focus {
 
 .validation-message {
   color: #e50000;
+  font-size: 11px;
+  padding-left: 10px;
 }
 
 .blazor-error-boundary {

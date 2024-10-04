@@ -1,12 +1,8 @@
 ﻿using CustomMessenger.Domain.Entities;
 using CustomMessenger.Domain.Enums;
 using Npgsql;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CustomMessenger.Data.Extensions
 {
@@ -71,10 +67,10 @@ namespace CustomMessenger.Data.Extensions
             var messageIds = reader.GetFieldValue<Guid[]>("messageids");
 
             var members = new List<Member>();
-            
+
             var messages = new List<Message>();
 
-            for (int i =  0; i < contents.Length; i++)
+            for (int i = 0; i < contents.Length; i++)
             {
                 messages.Add(new Message
                 {
@@ -134,7 +130,7 @@ namespace CustomMessenger.Data.Extensions
             };
         }
 
-        public static User MapReaderToUser(this NpgsqlDataReader reader) 
+        public static User MapReaderToUser(this NpgsqlDataReader reader)
         {
             return new User
             {

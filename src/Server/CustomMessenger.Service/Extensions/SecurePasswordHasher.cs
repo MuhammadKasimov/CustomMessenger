@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Security.Cryptography;
 namespace CustomMessenger.Service.Extensions
 {
     public static class SecurePasswordHasher
@@ -31,7 +26,7 @@ namespace CustomMessenger.Service.Extensions
             RandomNumberGenerator.Create().GetBytes(salt = new byte[SaltSize]);
 
             // Create hash
-            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations,HashAlgorithmName.SHA256);
+            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations, HashAlgorithmName.SHA256);
             var hash = pbkdf2.GetBytes(HashSize);
 
             // Combine salt and hash

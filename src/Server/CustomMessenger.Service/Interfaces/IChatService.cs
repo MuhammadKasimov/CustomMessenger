@@ -1,10 +1,4 @@
-﻿using CustomMessenger.Domain.Entities;
-using CustomMessenger.Service.DTO.Chats;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CustomMessenger.Service.DTO.Chats;
 
 namespace CustomMessenger.Service.Interfaces
 {

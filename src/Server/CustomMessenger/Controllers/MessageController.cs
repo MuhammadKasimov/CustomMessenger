@@ -1,5 +1,4 @@
-﻿using CustomMessenger.Domain.Entities;
-using CustomMessenger.Hubs;
+﻿using CustomMessenger.Hubs;
 using CustomMessenger.Service.DTO.Messages;
 using CustomMessenger.Service.Helpers;
 using CustomMessenger.Service.Interfaces;
@@ -10,8 +9,8 @@ using Microsoft.AspNetCore.SignalR;
 namespace CustomMessenger.Controllers
 {
     [Authorize]
-    [ApiController,Route("messages")]
-    public class MessageController(IMessageService messageService, IHubContext<ChatHub> hub) :  ControllerBase
+    [ApiController, Route("messages")]
+    public class MessageController(IMessageService messageService, IHubContext<ChatHub> hub) : ControllerBase
     {
         [HttpPost("send")]
         public async Task<IActionResult> SendMessage(MessageForCreation message)
@@ -21,7 +20,7 @@ namespace CustomMessenger.Controllers
             await messageService.CreateAsync(message);
             return Ok();
         }
-        
+
         [HttpPut]
         public async Task<IActionResult> ChangeText(MessageForUpdate messageForUpdate)
         {
@@ -36,9 +35,9 @@ namespace CustomMessenger.Controllers
             return Ok();
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllByChat(string search, Guid? chatId, Guid? UserId ,Guid?  groupId)
+        public async Task<IActionResult> GetAllByChat(string search, Guid? chatId, Guid? UserId, Guid? groupId)
         {
             return Ok(await messageService.GetAllAsync(search, chatId, HttpContextHelper.UserId, groupId));
         }
     }
-} 
+}

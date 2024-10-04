@@ -1,4 +1,6 @@
 ﻿@page "/register"
+@using System.ComponentModel.DataAnnotations
+@using CustomMessengerBlazor.Models.Users
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
 @rendermode InteractiveServer
@@ -8,7 +10,6 @@
         <h1 class="font-semibold text-xl">Registration</h1>
         <EditForm Model="@user" OnValidSubmit="HandleValidSubmit">
             <DataAnnotationsValidator />
-            <ValidationSummary />
 
             <div class="input-container">
                 <input placeholder=" "  type="text" id="username" @bind="user.Name" />
@@ -16,7 +17,7 @@
                 <ValidationMessage For="@(() => user.Name)" />
             </div>
             <div class="input-container">
-                <input placeholder=" "  id="username" @bind="user.Username"  />
+                <input placeholder=" " id="username" @bind="user.Username"  />
                 <label for="password">Username<span class="text-red-500">*</span></label>
                 <ValidationMessage For="@(() => user.Username)" />
             </div>
@@ -37,6 +38,7 @@
             <div class="input-container">
                 <input placeholder=" "  id="email" @bind="user.Email"  />
                 <label for="email">Email</label>
+                <ValidationMessage For="@(() => user.Email)" />
             </div>
 
             <div class="input-container">
@@ -55,15 +57,5 @@
     private void HandleValidSubmit()
     {
         NavigationManager.NavigateTo("/login");
-    }
-
-    public class UserRegistration
-    {
-        public string Name { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-        public string PhoneNumber { get; set; } = string.Empty;
-        public string Username { get; set; } = string.Empty;
-        public string Bio { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
     }
 }

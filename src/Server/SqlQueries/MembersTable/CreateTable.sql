@@ -1,11 +1,13 @@
-CREATE TABLE members(
+CREATE TABLE public.messages (
 	id uuid NOT NULL,
-	userid uuid NOT NULL,
-	groupid uuid NOT NULL,
-	role integer NOT NULL,
-	createdat timestamp NOT NULL,
-	updatedat timestamp
-	PRIMARY KEY(id),
-	FOREIGN KEY (userid) REFERENCES users(id),
-	FOREIGN KEY (groupid) REFERENCES groups(id) 
+	"content" varchar NOT NULL,
+	senderid uuid NOT NULL,
+	chatid uuid NULL,
+	groupid uuid NULL,
+	createdat timestamptz NOT NULL,
+	updatedat timestamptz NULL,
+	CONSTRAINT messages_pkey PRIMARY KEY (id),
+	CONSTRAINT messages_chatid_fkey FOREIGN KEY (chatid) REFERENCES public.chats(id),
+	CONSTRAINT messages_groupid_fkey FOREIGN KEY (groupid) REFERENCES public."groups"(id),
+	CONSTRAINT messages_senderid_fkey FOREIGN KEY (senderid) REFERENCES public.users(id)
 );

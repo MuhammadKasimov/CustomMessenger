@@ -3,11 +3,6 @@ using CustomMessenger.Data.IRepositories;
 using CustomMessenger.Domain.Entities;
 using Npgsql;
 using NpgsqlTypes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CustomMessenger.Data.Repositories
 {
@@ -15,7 +10,7 @@ namespace CustomMessenger.Data.Repositories
     {
         public async Task CreateAsync(Chat chat)
         {
-            using(var connection = new NpgsqlConnection(connectionString))
+            using (var connection = new NpgsqlConnection(connectionString))
             {
                 await connection.OpenAsync();
                 using (var command = new NpgsqlCommand("INSET INTO chats (firstuserid, seconduserid) values (@_firstuserid, @_seconduserid)", connection))

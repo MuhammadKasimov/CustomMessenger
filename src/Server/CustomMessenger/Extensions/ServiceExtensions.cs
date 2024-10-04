@@ -21,7 +21,7 @@ namespace CustomMessenger.Extensions
             services.AddSingleton<IMessageRepository>(p => new MessageRepository(connection));
             services.AddSingleton<IGroupRepository>(p => new GroupRepository(connection));
             services.AddSingleton<IMemberRepository>(p => new MemberRepository(connection));
-            
+
             services.AddSingleton<IChatService, ChatService>();
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IGroupService, GroupService>();

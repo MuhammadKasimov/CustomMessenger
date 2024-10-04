@@ -4,7 +4,6 @@ using CustomMessenger.Domain.Entities;
 using CustomMessenger.Domain.Enums;
 using Npgsql;
 using NpgsqlTypes;
-using System.Text.RegularExpressions;
 
 namespace CustomMessenger.Data.Repositories
 {
@@ -17,10 +16,10 @@ namespace CustomMessenger.Data.Repositories
                 await connection.OpenAsync();
                 using (var command = new NpgsqlCommand("INSERT INTO members (userid, groupid, iscreator, isadmin) VALUES (@_userid, @_groupid, @_role)", connection))
                 {
-                    command.Parameters.AddWithValue("_userid",NpgsqlDbType.Uuid, member.UserId);
-                    command.Parameters.AddWithValue("_groupid",NpgsqlDbType.Uuid, member.GroupId);
-                    command.Parameters.AddWithValue("_role",NpgsqlDbType.Integer, (int)member.Role);
-                    
+                    command.Parameters.AddWithValue("_userid", NpgsqlDbType.Uuid, member.UserId);
+                    command.Parameters.AddWithValue("_groupid", NpgsqlDbType.Uuid, member.GroupId);
+                    command.Parameters.AddWithValue("_role", NpgsqlDbType.Integer, (int)member.Role);
+
                     await command.ExecuteNonQueryAsync();
                 }
             }
@@ -34,7 +33,7 @@ namespace CustomMessenger.Data.Repositories
                 using (var command = new NpgsqlCommand($"DELETE FROM members WHERE userid = @_userid AND groupid = @_groupid", connection))
                 {
                     command.Parameters.AddWithValue("_userid", NpgsqlDbType.Uuid, id);
-                    
+
                     await command.ExecuteNonQueryAsync();
                 }
             }

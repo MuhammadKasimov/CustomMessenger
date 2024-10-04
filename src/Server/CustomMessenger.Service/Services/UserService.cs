@@ -1,6 +1,5 @@
 ﻿using CustomMessenger.Data.IRepositories;
 using CustomMessenger.Domain.Entities;
-using CustomMessenger.Service.Attributes;
 using CustomMessenger.Service.DTO.Users;
 using CustomMessenger.Service.Exceptions;
 using CustomMessenger.Service.Extensions;
@@ -9,13 +8,9 @@ using CustomMessenger.Service.Interfaces;
 using Mapster;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CustomMessenger.Service.Services
 {
@@ -67,7 +62,7 @@ namespace CustomMessenger.Service.Services
             dto.Password = dto.Password.Hash();
 
             await userRepository.UpdateAsync(dto.Adapt<User>());
-        } 
+        }
 
         public async Task DeleteAsync(Guid id)
         {
@@ -124,14 +119,14 @@ namespace CustomMessenger.Service.Services
 
             var token = CreateToken(configuration["Jwt:Key"], configuration["Jwt:Issuer"], user.Id);
 
-            return new 
+            return new
             {
                 Token = token
             };
         }
 
         private string CreateToken(string key, string issuer, Guid id)
-        { 
+        {
             var claims = new[]
             {
                new Claim("Id", id.ToString())
