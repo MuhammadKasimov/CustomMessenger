@@ -25,7 +25,12 @@ namespace CustomMessenger.Controllers
             await userService.DeleteAsync(id);
             return Ok();
         }
-
+        [HttpPut("/self")]
+        public async Task<IActionResult> UpdateSelfAsync(UserForUpdate dto)
+        {
+            await userService.UpdateAsync(dto);
+            return Ok();
+        }
         [HttpGet, Authorize]
         public async Task<IActionResult> GetAllAsync([FromQuery] string query = null)
             => Ok(await userService.GetAllAsync(query));
