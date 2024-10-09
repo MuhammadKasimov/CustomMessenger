@@ -1,4 +1,5 @@
 using CustomMessengerBlazor.Components;
+using CustomMessengerBlazor.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
+ApiSettings.URI = app.Configuration.GetValue<string>("CustomMessengerAPI");
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
