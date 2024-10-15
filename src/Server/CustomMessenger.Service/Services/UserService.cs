@@ -40,12 +40,12 @@ namespace CustomMessenger.Service.Services
         public async Task UpdateAsync(UserForUpdate dto)
         {
             string validationErrors = string.Empty;
-            var existUser = await userRepository.GetByIdAsync(dto.Id);
+            var existUser = await userRepository.GetByIdAsync((Guid)HttpContextHelper.UserId);
             if (existUser is null)
                 validationErrors += "User not found";
 
             var alredyExistUsers = (await userRepository
-                .GetAllAsync($"{dto.Username} {dto.Email} {dto.PhoneNumber}")).Where(u => u.Id != dto.Id);
+                .GetAllAsync($"{dto.Username} {dto.Email} {dto.PhoneNumber}")).Where(u => u.Id != (Guid)HttpContextHelper.UserId);
 
             if (alredyExistUsers.Any(u => u.Username == dto.Username))
                 validationErrors += "|Username is taken";

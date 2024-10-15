@@ -13,6 +13,6 @@ namespace CustomMessengerBlazor.Interfaces
         Task<UserForView> GetByNumberAsync(string phonenumber);
         Task<UserForView> GetByUsernameAsync(string username);
         Task<IEnumerable<UserForView>> GetAllAsync(string query);
-        Task<object> LoginAsync(UserLogin login);
+        Task<AccessToken> LoginAsync(UserLogin login);
     }
 }

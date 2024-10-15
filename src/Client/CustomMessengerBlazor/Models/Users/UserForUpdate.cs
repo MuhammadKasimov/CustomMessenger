@@ -5,8 +5,6 @@ namespace CustomMessenger.Service.DTO.Users
 {
     public class UserForUpdate
     {
-        [Required]
-        public Guid Id { get; set; }
         [Required, MaxLength(60)]
         public string Name { get; set; }
         [Required, StrongPassword]

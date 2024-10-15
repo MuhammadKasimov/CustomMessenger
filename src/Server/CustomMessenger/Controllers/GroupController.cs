@@ -60,7 +60,7 @@ namespace CustomMessenger.Controllers
         }
 
         [HttpPatch("members/role/{memberid}")]
-        public async Task<IActionResult> ChangeRole(Guid memberid, Role role)
+        public async Task<IActionResult> ChangeRole([FromRoute] Guid memberid, [FromForm] Role role)
         {
             await groupService.ChangeRole(memberid, role);
             return Ok();

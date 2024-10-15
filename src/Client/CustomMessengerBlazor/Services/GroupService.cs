@@ -1,55 +1,127 @@
 ﻿using CustomMessenger.Domain.Enums;
 using CustomMessenger.Service.DTO.Groups;
 using CustomMessenger.Service.DTO.Users;
+using CustomMessengerBlazor.Exceptions;
+using CustomMessengerBlazor.Helpers;
 using CustomMessengerBlazor.Interfaces;
+using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
+using System.Net;
 
 namespace CustomMessengerBlazor.Services
 {
     public class GroupService : IGroupService
     {
-        public Task AddMemberAsync(MemberForCreation member)
+        #region Group
+        public async Task CreateAsync(GroupForCreation dto)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                var strContent = new StringContent(JsonConvert.SerializeObject(dto));
+                var response = await client.PostAsync($"{ApiSettings.URI}/groups", strContent);
+
+                if (!response.IsSuccessStatusCode)
+                    throw JsonConvert.DeserializeObject<HttpStatusCodeException>(await response.Content.ReadAsStringAsync());
+            }
         }
 
-        public Task ChangeRole(Guid memberid, Role role)
+        public async Task UpdateAsync(GroupForUpdate dto)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                var strContent = new StringContent(JsonConvert.SerializeObject(dto));
+                var response = await client.PutAsync($"{ApiSettings.URI}/groups", strContent);
+
+                if (!response.IsSuccessStatusCode)
+                    throw JsonConvert.DeserializeObject<HttpStatusCodeException>(await response.Content.ReadAsStringAsync());
+            }
         }
 
-        public Task CreateAsync(GroupForCreation dto)
+        public async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                var response = await client.DeleteAsync($"{ApiSettings.URI}/groups/{id}");
+
+                if (!response.IsSuccessStatusCode)
+                    throw JsonConvert.DeserializeObject<HttpStatusCodeException>(await response.Content.ReadAsStringAsync());
+            }
         }
 
-        public Task DeleteAsync(Guid id)
+
+        public async Task<SingleGroupForView> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync($"{ApiSettings.URI}/groups/{id}");
+
+                if (!response.IsSuccessStatusCode)
+                    throw JsonConvert.DeserializeObject<HttpStatusCodeException>(await response.Content.ReadAsStringAsync());
+
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<SingleGroupForView>(content);
+            }
         }
 
+        public async Task<SingleGroupForView> GetByUniqueNameAsync(string uniquename)
+        {
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync($"{ApiSettings.URI}/{uniquename}");
+
+                if (!response.IsSuccessStatusCode)
+                    throw JsonConvert.DeserializeObject<HttpStatusCodeException>(await response.Content.ReadAsStringAsync());
+
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<SingleGroupForView>(content);
+            }
+        }
+
+        public async Task<IEnumerable<GroupForView>> SearchAsync(string query)
+        {
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync($"{ApiSettings.URI}/query");
+                if (!response.IsSuccessStatusCode)
+                    throw JsonConvert.DeserializeObject<HttpStatusCodeException>(await response.Content.ReadAsStringAsync());
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<IEnumerable<GroupForView>>(content);
+            }
+        }
+
+        public async Task AddMemberAsync(MemberForCreation member)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                var content = new StringContent(JsonConvert.SerializeObject(member));
+                var response = await client.PostAsync($"{ApiSettings.URI}/members", content);
+                if (!response.IsSuccessStatusCode)
+                    throw JsonConvert.DeserializeObject<HttpStatusCodeException>(await response.Content.ReadAsStringAsync());
+            }
+        }
+        #endregion
+
+        #region Member
         public Task DeleteMemberAsync(Guid id)
         {
             throw new NotImplementedException();
         }
-
-        public Task<SingleGroupForView> GetByIdAsync(Guid id)
+        public async Task ChangeRole(Guid memberid, Role role)
         {
-            throw new NotImplementedException();
-        }
+            using (var client = new HttpClient())
+            {
 
-        public Task<SingleGroupForView> GetByUniqueNameAsync(string uniquename)
-        {
-            throw new NotImplementedException();
-        }
+                var strContent = new StringContent(role.ToString());
+                var formData = new MultipartFormDataContent
+                {
+                    { strContent, nameof(role) }
+                };
 
-        public Task<IEnumerable<GroupForView>> SearchAsync(string query)
-        {
-            throw new NotImplementedException();
+                var response = await client.PatchAsync($"{ApiSettings.URI}/members/{memberid}", formData);
+                if (!response.IsSuccessStatusCode)
+                    throw JsonConvert.DeserializeObject<HttpStatusCodeException>(await response.Content.ReadAsStringAsync());
+            }
         }
-
-        public Task UpdateAsync(GroupForUpdate dto)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }

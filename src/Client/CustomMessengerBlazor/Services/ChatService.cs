@@ -1,28 +1,62 @@
 ﻿using CustomMessenger.Service.DTO.Chats;
+using CustomMessengerBlazor.Exceptions;
+using CustomMessengerBlazor.Helpers;
 using CustomMessengerBlazor.Interfaces;
+using Newtonsoft.Json;
 
 namespace CustomMessengerBlazor.Services
 {
     public class ChatService : IChatService
     {
-        public Task CreateAsync(ChatForCreation dto)
+        public async Task CreateAsync(ChatForCreation dto)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                var stringContent = new StringContent(JsonConvert.SerializeObject(dto));
+                var response = await client.PostAsync($"{ApiSettings.URI}/chats", stringContent);
+
+                if (!response.IsSuccessStatusCode)
+                    throw JsonConvert.DeserializeObject<HttpStatusCodeException>(await response.Content.ReadAsStringAsync());
+
+            }
         }
 
-        public Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                var response = await client.DeleteAsync($"{ApiSettings.URI}/chats/{id}");
+
+                if (!response.IsSuccessStatusCode)
+                    throw JsonConvert.DeserializeObject<HttpStatusCodeException>(await response.Content.ReadAsStringAsync());
+            }
         }
 
-        public Task<IEnumerable<ChatForView>> GetAllByUserAsync()
+        public async Task<IEnumerable<ChatForView>> GetAllByUserAsync()
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync(ApiSettings.URI);
+                if (!response.IsSuccessStatusCode)
+                    throw JsonConvert.DeserializeObject<HttpStatusCodeException>(await response.Content.ReadAsStringAsync());
+                var content = await response.Content.ReadAsStringAsync();
+
+                return JsonConvert.DeserializeObject<IEnumerable<ChatForView>>(content);
+            }
         }
 
-        public Task<ChatWithMessages> GetByIdAsync(Guid id)
+        public async Task<ChatWithMessages> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync($"{ApiSettings.URI}/{id}");
+                if (!response.IsSuccessStatusCode)
+                    throw JsonConvert.DeserializeObject<HttpStatusCodeException>(await response.Content.ReadAsStringAsync());
+                var content = await response.Content.ReadAsStringAsync();
+
+                return JsonConvert.DeserializeObject<ChatWithMessages>(content);
+            }
         }
+    }
     }
 }

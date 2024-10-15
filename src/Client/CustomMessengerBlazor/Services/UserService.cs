@@ -16,7 +16,7 @@ namespace CustomMessengerBlazor.Services
                 var content = new StringContent(JsonConvert.SerializeObject(dto));
                 var response = await client.PostAsync($"{ApiSettings.URI}/users/register", content);
                 if (!response.IsSuccessStatusCode)
-                    throw new HttpStatusCodeException(response.StatusCode, await response.Content.ReadAsStringAsync());
+                    throw JsonConvert.DeserializeObject<HttpStatusCodeException>(await response.Content.ReadAsStringAsync());
             }
         }
 
@@ -115,18 +115,15 @@ namespace CustomMessengerBlazor.Services
             }
         }
 
-        public async Task<AccessToken> UpdateAsync(UserForUpdate dto)
+        public async Task UpdateAsync(UserForUpdate dto)
         {
             using (HttpClient client = new HttpClient())
             {
                 var stringContent = new StringContent(JsonConvert.SerializeObject(dto));
-                var response = await client.PutAsync($"{ApiSettings.URI}/users/login",stringContent);
+                var response = await client.PutAsync($"{ApiSettings.URI}/users/self",stringContent);
                 var content = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
                     throw JsonConvert.DeserializeObject<HttpStatusCodeException>(content);
-
-                var token = JsonConvert.DeserializeObject<AccessToken>(content);
-                return token;
             }
         }
     }
