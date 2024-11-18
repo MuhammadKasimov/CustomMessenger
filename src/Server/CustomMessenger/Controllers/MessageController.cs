@@ -5,6 +5,7 @@ using CustomMessenger.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using System.ComponentModel.DataAnnotations;
 
 namespace CustomMessenger.Controllers
 {
@@ -35,7 +36,7 @@ namespace CustomMessenger.Controllers
             return Ok();
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllByChat(string search, Guid? chatId, Guid? UserId, Guid? groupId)
+        public async Task<IActionResult> GetAllByChat([Required] string search, Guid? chatId, Guid? UserId, Guid? groupId)
         {
             return Ok(await messageService.GetAllAsync(search, chatId, HttpContextHelper.UserId, groupId));
         }

@@ -1,10 +1,18 @@
 using CustomMessengerBlazor.Components;
 using CustomMessengerBlazor.Helpers;
+using CustomMessengerBlazor.Interfaces;
+using CustomMessengerBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IGroupService, GroupService>();
+builder.Services.AddScoped<IChatService, ChatService>();
+builder.Services.AddScoped<IMessageService, MessageService>();
+
 
 var app = builder.Build();
 

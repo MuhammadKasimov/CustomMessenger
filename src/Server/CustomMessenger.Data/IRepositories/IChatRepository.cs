@@ -6,9 +6,9 @@ namespace CustomMessenger.Data.IRepositories
     {
         Task CreateAsync(Chat chat);
         Task DeleteAsync(Guid id);
-        Task<Chat> GetByIdAsync(Guid id);
+        Task<Chat> GetIncludeByIdAsync(Guid id);
         Task<IEnumerable<Chat>> GetAllByUserAsync(Guid userId);
         Task<Chat> GetByMembersAsync(Guid firstMember, Guid secondMember);
-
+        Task<Chat> GetByIdAsync(Guid id);
     }
 }

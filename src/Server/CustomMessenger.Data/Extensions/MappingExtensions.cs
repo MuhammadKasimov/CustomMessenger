@@ -16,11 +16,22 @@ namespace CustomMessenger.Data.Extensions
                 FirstUserId = reader.GetGuid("firstuserid"),
                 SecondUserId = reader.GetGuid("seconduserid"),
                 CreatedAt = reader.GetDateTime("createdat"),
-                UpdatedAt = reader.GetDateTime("updatedat"),
+                UpdatedAt = reader.IsDBNull("updatedat") ? null : reader.GetDateTime("updatedat")
             };
         }
         public static Chat MapReaderToChatWithMessages(this NpgsqlDataReader reader)
         {
+            if (reader.GetFieldValue<Guid?[]>("senders")[0] is null)
+            {
+                return new Chat
+                {
+                    Id = reader.GetGuid("id"),
+                    FirstUserId = reader.GetGuid("firstuserid"),
+                    SecondUserId = reader.GetGuid("seconduserid"),
+                    CreatedAt = reader.GetDateTime("createdat"),
+                    UpdatedAt = reader.IsDBNull("updatedat") ? null : reader.GetDateTime("updatedat")
+                };
+            }
             var messageSenders = reader.GetFieldValue<Guid[]>("senders");
             var contents = reader.GetFieldValue<string[]>("contents");
             var messageIds = reader.GetFieldValue<Guid[]>("messageids");
@@ -41,7 +52,7 @@ namespace CustomMessenger.Data.Extensions
                 SecondUserId = reader.GetGuid("seconduserid"),
                 Messages = messages,
                 CreatedAt = reader.GetDateTime("createdat"),
-                UpdatedAt = reader.GetDateTime("updatedat")
+                UpdatedAt = reader.IsDBNull("updatedat") ? null : reader.GetDateTime("updatedat")
             };
         }
         public static Group MapReaderToGroup(this NpgsqlDataReader reader)
@@ -52,7 +63,7 @@ namespace CustomMessenger.Data.Extensions
                 Name = reader.GetString("name"),
                 UniqueName = reader.GetString("uniquename"),
                 CreatedAt = reader.GetDateTime("createdat"),
-                UpdatedAt = reader.GetDateTime("updatedat"),
+                UpdatedAt = reader.IsDBNull("updatedat") ? null : reader.GetDateTime("updatedat")
             };
         }
         public static Group MapReaderToGroupWithUsers(this NpgsqlDataReader reader)
@@ -62,10 +73,16 @@ namespace CustomMessenger.Data.Extensions
             var roles = reader.GetFieldValue<int[]>("roles");
             var names = reader.GetFieldValue<string[]>("names");
 
-            var messageSenders = reader.GetFieldValue<Guid[]>("senders");
+            var messageSenders = reader.GetFieldValue<Guid?[]>("senders");
             var contents = reader.GetFieldValue<string[]>("contents");
-            var messageIds = reader.GetFieldValue<Guid[]>("messageids");
-
+            
+            var messageIds = reader.GetFieldValue<Guid?[]>("messageids");
+            if (messageIds[0] is null)
+            {
+                messageIds = [];
+                messageSenders = [];
+                contents = [];
+            }
             var members = new List<Member>();
 
             var messages = new List<Message>();
@@ -74,8 +91,8 @@ namespace CustomMessenger.Data.Extensions
             {
                 messages.Add(new Message
                 {
-                    Id = messageIds[i],
-                    SenderId = messageSenders[i],
+                    Id = (Guid)messageIds[i],
+                    SenderId = (Guid)messageSenders[i],
                     Content = contents[i]
                 });
             }
@@ -98,7 +115,7 @@ namespace CustomMessenger.Data.Extensions
                 Name = reader.GetString("name"),
                 UniqueName = reader.GetString("uniquename"),
                 CreatedAt = reader.GetDateTime("createdat"),
-                UpdatedAt = reader.GetDateTime("updatedat"),
+                UpdatedAt = reader.IsDBNull("updatedat") ? null : reader.GetDateTime("updatedat"),
                 Members = members,
                 Messages = messages
             };
@@ -112,7 +129,7 @@ namespace CustomMessenger.Data.Extensions
                 UserId = reader.GetGuid("userid"),
                 Role = (Role)reader.GetInt32("role"),
                 CreatedAt = reader.GetDateTime("createdat"),
-                UpdatedAt = reader.GetDateTime("updatedat"),
+                UpdatedAt = reader.IsDBNull("updatedat") ? null : reader.GetDateTime("updatedat")
             };
         }
 
@@ -121,12 +138,12 @@ namespace CustomMessenger.Data.Extensions
             return new Message
             {
                 Id = reader.GetGuid("id"),
-                GroupId = reader.GetGuid("groupid"),
+                GroupId = reader.IsDBNull("groupid") ? null : reader.GetGuid("groupid"),
                 SenderId = reader.GetGuid("senderid"),
-                ChatId = reader.GetGuid("chatid"),
+                ChatId = reader.IsDBNull("chatid") ? null : reader.GetGuid("chatid"),
                 Content = reader.GetString("content"),
                 CreatedAt = reader.GetDateTime("createdat"),
-                UpdatedAt = reader.GetDateTime("updatedat"),
+                UpdatedAt = reader.IsDBNull("updatedat") ? null : reader.GetDateTime("updatedat")
             };
         }
 
@@ -136,13 +153,13 @@ namespace CustomMessenger.Data.Extensions
             {
                 Id = reader.GetGuid("id"),
                 Bio = reader.IsDBNull("bio") ? null : reader.GetString("bio"),
-                Email = reader.GetString("email"),
+                Email = reader.IsDBNull("email") ? null : reader.GetString("email"),
                 PhoneNumber = reader.GetString("phonenumber"),
                 Username = reader.GetString("username"),
                 Name = reader.GetString("name"),
                 Password = reader.GetString("password"),
                 CreatedAt = reader.GetDateTime("createdat"),
-                UpdatedAt = reader.IsDBNull("updatedat") ? null : reader.GetDateTime("updatedat"),
+                UpdatedAt = reader.IsDBNull("updatedat") ? null : reader.GetDateTime("updatedat")
             };
         }
     }

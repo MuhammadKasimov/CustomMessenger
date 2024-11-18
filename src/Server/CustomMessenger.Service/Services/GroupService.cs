@@ -60,7 +60,7 @@ namespace CustomMessenger.Service.Services
 
         public async Task<SingleGroupForView> GetByIdAsync(Guid id)
         {
-            var existGroup = await groupRepository.GetByIdAsync(id)
+            var existGroup = await groupRepository.GetIncludeByIdAsync(id)
                 ?? throw new HttpStatusCodeException(404, "Group not found");
 
             return existGroup.Adapt<SingleGroupForView>();
@@ -68,7 +68,7 @@ namespace CustomMessenger.Service.Services
 
         public async Task<SingleGroupForView> GetByUniqueNameAsync(string uniquename)
         {
-            var existGroup = await groupRepository.GetByUniqueNameAsync(uniquename)
+            var existGroup = await groupRepository.GetIncludeByUniqueNameAsync(uniquename)
                 ?? throw new HttpStatusCodeException(404, "Group not found");
 
             return existGroup.Adapt<SingleGroupForView>();

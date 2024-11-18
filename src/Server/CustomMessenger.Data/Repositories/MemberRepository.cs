@@ -14,11 +14,13 @@ namespace CustomMessenger.Data.Repositories
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                using (var command = new NpgsqlCommand("INSERT INTO members (userid, groupid, iscreator, isadmin) VALUES (@_userid, @_groupid, @_role)", connection))
+                using (var command = new NpgsqlCommand("INSERT INTO members (id, userid, groupid, role, createdat) VALUES (@_id, @_userid, @_groupid, @_role, @_createdat)", connection))
                 {
+                    command.Parameters.AddWithValue("_id", NpgsqlDbType.Uuid, member.Id);
                     command.Parameters.AddWithValue("_userid", NpgsqlDbType.Uuid, member.UserId);
                     command.Parameters.AddWithValue("_groupid", NpgsqlDbType.Uuid, member.GroupId);
                     command.Parameters.AddWithValue("_role", NpgsqlDbType.Integer, (int)member.Role);
+                    command.Parameters.AddWithValue("_createdat", NpgsqlDbType.TimestampTz, member.CreatedAt);
 
                     await command.ExecuteNonQueryAsync();
                 }

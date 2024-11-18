@@ -7,7 +7,9 @@ namespace CustomMessenger.Data.IRepositories
         Task CreateAsync(Group group);
         Task UpdateAsync(Group group);
         Task DeleteAsync(Guid id);
+        Task<Group> GetIncludeByIdAsync(Guid id);
         Task<Group> GetByIdAsync(Guid id);
+        Task<Group> GetIncludeByUniqueNameAsync(string uniqueName);
         Task<Group> GetByUniqueNameAsync(string uniqueName);
         Task<IEnumerable<Group>> SearchAsync(string query);
     }

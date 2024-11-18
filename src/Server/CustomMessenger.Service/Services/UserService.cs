@@ -112,10 +112,10 @@ namespace CustomMessenger.Service.Services
         public async Task<object> LoginAsync(UserForLogin login)
         {
             var user = await userRepository.GetByUsernameAsync(login.Username)
-                ?? throw new HttpStatusCodeException(400, "Username or password is wrong");
+                ?? throw new HttpStatusCodeException(400, "Username is wrong");
 
             if (!login.Password.Verify(user.Password))
-                throw new HttpStatusCodeException(200, "Username or password is wrong");
+                throw new HttpStatusCodeException(400, "Username or password is wrong");
 
             var token = CreateToken(configuration["Jwt:Key"], configuration["Jwt:Issuer"], user.Id);
 

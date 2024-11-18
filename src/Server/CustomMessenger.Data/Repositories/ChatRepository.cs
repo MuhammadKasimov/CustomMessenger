@@ -13,10 +13,12 @@ namespace CustomMessenger.Data.Repositories
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                using (var command = new NpgsqlCommand("INSET INTO chats (firstuserid, seconduserid) values (@_firstuserid, @_seconduserid)", connection))
+                using (var command = new NpgsqlCommand("INSERT INTO chats (id, firstuserid, seconduserid, createdat) values (@_id, @_firstuserid, @_seconduserid, @_createdat)", connection))
                 {
+                    command.Parameters.AddWithValue("_id", NpgsqlDbType.Uuid, chat.Id);
                     command.Parameters.AddWithValue("_firstuserid", NpgsqlDbType.Uuid, chat.FirstUserId);
                     command.Parameters.AddWithValue("_seconduserid", NpgsqlDbType.Uuid, chat.SecondUserId);
+                    command.Parameters.AddWithValue("_createdat", NpgsqlDbType.TimestampTz, chat.CreatedAt);
 
                     await command.ExecuteNonQueryAsync();
                 }
@@ -28,7 +30,7 @@ namespace CustomMessenger.Data.Repositories
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                using (var command = new NpgsqlCommand("DELETE FROM chats WHERE id = @_id", connection))
+                using (var command = new NpgsqlCommand("DELETE FROM chats WHERE id = @_id;", connection))
                 {
                     command.Parameters.AddWithValue("_id", NpgsqlDbType.Uuid, id);
 
@@ -59,13 +61,32 @@ namespace CustomMessenger.Data.Repositories
             }
         }
 
+        public async Task<Chat> GetIncludeByIdAsync(Guid id)
+        {
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new NpgsqlCommand(@"SELECT DISTINCT ON(c.firstuserid, c.seconduserid, c.createdat, c.updatedat) c.id, c.firstuserid, c.seconduserid, c.createdat, c.updatedat, ARRAY_AGG(m.content) AS contents, ARRAY_AGG(m.senderid) AS senders, ARRAY_AGG(m.id) as messageids FROM chats AS c 
+                                                                            LEFT JOIN messages AS m ON m.chatid = c.id WHERE c.id = @_id GROUP BY c.id ;", connection))
+                {
+                    command.Parameters.AddWithValue("_id", NpgsqlDbType.Uuid, id);
+
+                    var reader = await command.ExecuteReaderAsync();
+
+                    while (await reader.ReadAsync())
+                    {
+                        return reader.MapReaderToChatWithMessages();
+                    }
+                    return null;
+                }
+            }
+        }
         public async Task<Chat> GetByIdAsync(Guid id)
         {
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                using (var command = new NpgsqlCommand(@"SELECT c.*, ARRAY_AGG(m.content) AS contents, ARRAY_AGG(m.senderid) AS senders FROM chats AS c 
-                                                                            JOIN messages AS m ON m.chatid = c.id WHERE id = @_id GROUP BY c.*;", connection))
+                using (var command = new NpgsqlCommand(@"SELECT * FROM chats WHERE id = @_id;", connection))
                 {
                     command.Parameters.AddWithValue("_id", NpgsqlDbType.Uuid, id);
 
@@ -84,7 +105,7 @@ namespace CustomMessenger.Data.Repositories
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                using (var command = new NpgsqlCommand("SELECT * FROM chats WHERE firstuserid = @_firstmember AND seconduserid = @_secondmember;", connection))
+                using (var command = new NpgsqlCommand("SELECT * FROM chats WHERE firstuserid = @_firstmember AND seconduserid = @_secondmember OR firstuserid = @_secondmember AND seconduserid = @_firstmember;", connection))
                 {
                     command.Parameters.AddWithValue("_firstmember", NpgsqlDbType.Uuid, firstMember);
                     command.Parameters.AddWithValue("_secondmember", NpgsqlDbType.Uuid, firstMember);

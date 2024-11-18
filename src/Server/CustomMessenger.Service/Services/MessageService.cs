@@ -28,7 +28,6 @@ namespace CustomMessenger.Service.Services
             message.SenderId = (Guid)HttpContextHelper.UserId;
 
             await messageRepository.CreateAsync(message);
-
         }
 
         public async Task UpdateAsync(MessageForUpdate dto)

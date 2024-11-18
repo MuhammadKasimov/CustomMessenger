@@ -34,7 +34,7 @@ namespace CustomMessenger.Service.Services
 
         public async Task<ChatWithMessages> GetByIdAsync(Guid id)
         {
-            var existChat = await chatRepository.GetByIdAsync(id);
+            var existChat = await chatRepository.GetIncludeByIdAsync(id);
             if (existChat is null)
                 throw new HttpStatusCodeException(404, "User not found");
 
